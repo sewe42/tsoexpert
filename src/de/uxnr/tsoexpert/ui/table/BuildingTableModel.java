@@ -1,4 +1,4 @@
-package de.uxnr.tsoexpert.ui.zone.table;
+package de.uxnr.tsoexpert.ui.table;
 
 import java.awt.EventQueue;
 import java.io.IOException;
@@ -7,16 +7,16 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import de.uxnr.tsoexpert.game.IDataHandler;
-import de.uxnr.tsoexpert.game.communication.vo.ResourceVO;
+import de.uxnr.tsoexpert.game.communication.vo.BuildingVO;
 import de.uxnr.tsoexpert.game.communication.vo.ZoneVO;
 
-public class ResourceTableModel extends AbstractTableModel implements IDataHandler<ZoneVO> {
+public class BuildingTableModel extends AbstractTableModel implements IDataHandler<ZoneVO> {
 	private static final long serialVersionUID = -6357460357936381670L;
 	
-	private List<ResourceVO> resources;
+	private List<BuildingVO> buildings;
 
-	public void populateResources(List<ResourceVO> resources) {
-		this.resources = resources;
+	public void populateBuildings(List<BuildingVO> buildings) {
+		this.buildings = buildings;
 		this.fireTableDataChanged();
 	}
 
@@ -27,8 +27,8 @@ public class ResourceTableModel extends AbstractTableModel implements IDataHandl
 
 	@Override
 	public int getRowCount() {
-		if (this.resources != null) {
-			return this.resources.size();
+		if (this.buildings != null) {
+			return this.buildings.size();
 		}
 		return 0;
 	}
@@ -39,7 +39,7 @@ public class ResourceTableModel extends AbstractTableModel implements IDataHandl
 		case 0:
 			return "Name";
 		case 1:
-			return "Amount";
+			return "Level";
 		}
 		return null;
     }
@@ -48,9 +48,9 @@ public class ResourceTableModel extends AbstractTableModel implements IDataHandl
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		switch (columnIndex) {
 		case 0:
-			return this.resources.get(rowIndex).getName_string();
+			return this.buildings.get(rowIndex).getBuildingName_string();
 		case 1:
-			return this.resources.get(rowIndex).getAmount();
+			return this.buildings.get(rowIndex).getUpgradeLevel();
 		}
 		return null;
 	}
@@ -60,7 +60,7 @@ public class ResourceTableModel extends AbstractTableModel implements IDataHandl
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				populateResources(zoneVO.getResourcesVO().getResources_vector());
+				populateBuildings(zoneVO.getBuildings());
 			}
 		});
 	}
